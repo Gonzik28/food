@@ -8,31 +8,29 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 
 import java.util.ResourceBundle;
 
-    public class Main {
-        telegram.bot.proxy.port=3128
-        telegram.bot.proxy.host=68.183.129.232
-        private static final ResourceBundle properties = ResourceBundle.getBundle("config");
+public class Main {
+    private static final ResourceBundle properties = ResourceBundle.getBundle("application");
 
-        public static void main(String[] args) {
-            ApiContextInitializer.init();
-            TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
-            try {
-                String proxyHost = properties.getString("telegram.bot.proxy.host");
-                Integer proxyPort = Integer.valueOf(properties.getString("telegram.bot.proxy.port"));
-                String username = properties.getString("telegram.bot.username");
-                String token = properties.getString("telegram.bot.token");
-                HttpHost httpHost = new HttpHost(proxyHost, proxyPort);
-                RequestConfig requestConfig = RequestConfig.custom()
-                        .setProxy(httpHost)
-                        .setAuthenticationEnabled(false)
-                        .build();
-                DefaultBotOptions options = ApiContext.getInstance(DefaultBotOptions.class);
-                options.setRequestConfig(requestConfig);
-                options.setProxyHost(proxyHost);
-                options.setProxyPort(proxyPort);
-                telegramBotsApi.registerBot(new Bot(options, username, token));
-            } catch (TelegramApiRequestException e) {
-                e.printStackTrace();
-            }
+    public static void main(String[] args) {
+        ApiContextInitializer.init();
+        TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
+        try {
+            String proxyHost = properties.getString("telegram.bot.proxy.host");
+            Integer proxyPort = Integer.valueOf(properties.getString("telegram.bot.proxy.port"));
+            String username = properties.getString("telegram.bot.username");
+            String token = properties.getString("telegram.bot.token");
+            HttpHost httpHost = new HttpHost(proxyHost, proxyPort);
+            RequestConfig requestConfig = RequestConfig.custom()
+                    .setProxy(httpHost)
+                    .setAuthenticationEnabled(false)
+                    .build();
+            DefaultBotOptions options = ApiContext.getInstance(DefaultBotOptions.class);
+            options.setRequestConfig(requestConfig);
+            options.setProxyHost(proxyHost);
+            options.setProxyPort(proxyPort);
+            telegramBotsApi.registerBot(new Bot());
+        } catch (TelegramApiRequestException e) {
+            e.printStackTrace();
         }
     }
+}
